@@ -1,4 +1,3 @@
-# import cvzone
 # import firebase_admin
 # from firebase_admin import credentials
 # from firebase_admin import db
@@ -133,6 +132,7 @@ import cv2
 import os
 import pickle
 import numpy as np
+import cvzone
 import face_recognition
 cap = cv2.VideoCapture(0) 
 cap.set(3, 640)  
@@ -177,6 +177,20 @@ while True:
 
             matchIndex = np.argmin(faceDis)
             print("Match Index", matchIndex)
+            if matches[matchIndex]:
+                # print("Known Face Detected")
+                # print(studentIds[matchIndex])
+                y1, x2, y2, x1 = faceLoc
+                y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
+                imgBackground = cvzone.cornerRect(imgBackground, bbox, rt=0)
+                # id = studentIds[matchIndex]
+                # if counter == 0:
+                #     cvzone.putTextRect(imgBackground, "Loading", (275, 400))
+                #     cv2.imshow("Face Attendance", imgBackground)
+                #     cv2.waitKey(1)
+                #     counter = 1
+                #     modeType = 1
 
     # cv2.imshow("Webcam", img)
     cv2.imshow("Face Attendance", imgBackground)
